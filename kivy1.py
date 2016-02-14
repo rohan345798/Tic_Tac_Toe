@@ -9,18 +9,35 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 
 def are_equal(btn1, btn2, btn3):
+    print '-----------------------------'
+    print btn1.text
+    print btn2.text
+    print btn3.text
+    print '----------------------------'
+    if btn1.text == '' or btn2.text == '' or btn3.text == '':
+        return False
     return btn1.text == btn2.text and btn1.text == btn3.text
 
-def has_anyone_won():
-    pass
-
 def declare_victory():
-    pass
+    print "Victory"
+
+def has_anyone_won(l):
+    for lis in l:
+        if are_equal(lis[0],lis[1],lis[2]) == True:
+            return True
+    for num in [0,1,2]:
+        if are_equal(l[0][num],l[1][num],l[2][num]) == True:
+            return True
+    if are_equal(l[0][0],l[1][1],l[2][2]) == True:
+        return True
+
+    if are_equal(l[0][2],l[1][1],l[2][0]) == True:
+        return True
 
 def my_click(instance):
     if instance.text == '':
         instance.text = MyApp.next_string
-        if has_anyone_won()== True:
+        if has_anyone_won(MyApp.buttons)== True:
             declare_victory()
         if MyApp.next_string == 'X':
             MyApp.next_string = 'O'
@@ -43,12 +60,19 @@ class MyApp(App):
             b2 = BoxLayout(orientation='vertical')
             for i in [0,1,2]:
                 btn = Button(text='', font_size=80)
-                MyApp.buttons[column][i] = btn
+                MyApp.buttons[i][column] = btn
                 btn.bind(on_press=my_click)
                 b2.add_widget(btn)
                 
             f.add_widget(b2)
         return f
+
+
+
+
+
+
+
 
         
 if __name__ == '__main__':
