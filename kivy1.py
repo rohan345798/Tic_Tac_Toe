@@ -19,8 +19,9 @@ def are_equal(btn1, btn2, btn3):
     return btn1.text == btn2.text and btn1.text == btn3.text
 
 def declare_victory():
+    MyApp.already_victory = True
     print "Victory"
-
+    
 def has_anyone_won(l):
     for lis in l:
         if are_equal(lis[0],lis[1],lis[2]) == True:
@@ -35,22 +36,25 @@ def has_anyone_won(l):
         return True
 
 def my_click(instance):
-    if instance.text == '':
-        instance.text = MyApp.next_string
-        if has_anyone_won(MyApp.buttons)== True:
-            declare_victory()
-        if MyApp.next_string == 'X':
-            MyApp.next_string = 'O'
-            instance.color = [0,1,0,1]
-        else:
-            MyApp.next_string = 'X'
-            instance.color = [1,0,0,1]
+    if not MyApp.already_victory:
+        if instance.text == '':
+            instance.text = MyApp.next_string
+            if has_anyone_won(MyApp.buttons)== True:
+                declare_victory()
+                
+            if MyApp.next_string == 'X':
+                MyApp.next_string = 'O'
+                instance.color = [0,1,0,1]
+            else:
+                MyApp.next_string = 'X'
+                instance.color = [1,0,0,1]
         
         
 
 
 class MyApp(App):
     next_string = 'X'
+    already_victory = False
     buttons = [[None, None, None],
                [None, None, None],
                [None, None, None]]
